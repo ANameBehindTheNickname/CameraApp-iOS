@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CameraControlView" customModule="CameraApp" customModuleProvider="target">
             <connections>
+                <outlet property="buttonStack" destination="LRk-7v-zbL" id="F0P-Wv-ZiM"/>
                 <outlet property="changeCameraButton" destination="iL6-7g-vhs" id="xPE-WP-iNf"/>
                 <outlet property="changeRatioButton" destination="Zbw-Hj-5x4" id="jYh-Vq-xUB"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="f3c-Rk-hWa"/>
@@ -23,28 +24,23 @@
             <rect key="frame" x="0.0" y="0.0" width="463" height="102"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LRk-7v-zbL">
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LRk-7v-zbL">
                     <rect key="frame" x="0.0" y="0.0" width="463" height="102"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bDt-LL-S8l">
-                            <rect key="frame" x="0.0" y="36" width="92.5" height="30"/>
-                            <state key="normal" title="Button"/>
+                            <rect key="frame" x="0.0" y="36" width="30" height="30"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iL6-7g-vhs">
-                            <rect key="frame" x="92.5" y="36" width="92.5" height="30"/>
-                            <state key="normal" title="Button"/>
+                            <rect key="frame" x="108.5" y="36" width="30" height="30"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKe-e2-7Wc">
-                            <rect key="frame" x="185" y="36" width="93" height="30"/>
-                            <state key="normal" title="Button"/>
+                            <rect key="frame" x="216.5" y="36" width="30" height="30"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbw-Hj-5x4">
-                            <rect key="frame" x="278" y="36" width="92.5" height="30"/>
-                            <state key="normal" title="Button"/>
+                            <rect key="frame" x="325" y="36" width="30" height="30"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UEI-Qj-4fX">
-                            <rect key="frame" x="370.5" y="36" width="92.5" height="30"/>
-                            <state key="normal" title="Button"/>
+                            <rect key="frame" x="433" y="36" width="30" height="30"/>
                         </button>
                     </subviews>
                 </stackView>
