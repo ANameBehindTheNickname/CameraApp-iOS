@@ -16,21 +16,15 @@ final class CameraControlView: UIView {
     @IBOutlet private(set) var flashlightButton: UIButton!
     
     @IBAction private func changeGridSetting(_ sender: UIButton) {
-        viewModel?.send(event: .onGridTap) { tintColorName, imageName in
-            update(sender, with: tintColorName, and: imageName)
-        }
+        send(.onGridTap, from: sender)
     }
     
     @IBAction private func changeRatioSetting(_ sender: UIButton) {
-        viewModel?.send(event: .onChangeRatioTap) { tintColorName, imageName in
-            update(sender, with: tintColorName, and: imageName)
-        }
+        send(.onChangeRatioTap, from: sender)
     }
     
     @IBAction private func changeFlashlightSetting(_ sender: UIButton) {
-        viewModel?.send(event: .onFlashlightTap) { tintColorName, imageName in
-            update(sender, with: tintColorName, and: imageName)
-        }
+        send(.onFlashlightTap, from: sender)
     }
     
     var viewModel: CameraControlViewViewModel? {
@@ -81,6 +75,12 @@ final class CameraControlView: UIView {
         
         let (flashlightColorName, flashlightImageName) = viewModel.flashlightButtonConfig()
         update(flashlightButton, with: flashlightColorName, and: flashlightImageName)
+    }
+    
+    private func send(_ event: CameraControlViewViewModel.Event, from button: UIButton) {
+        viewModel?.send(event: event) { tintColorName, imageName in
+            update(button, with: tintColorName, and: imageName)
+        }
     }
     
     private func update(_ button: UIButton, with tintColorName: String, and imageName: String ) {
