@@ -7,13 +7,13 @@ import UIKit
 
 final class CameraControlView: UIView {
     @IBOutlet private var contentView: UIView!
-    @IBOutlet var buttonStack: UIStackView!
+    @IBOutlet private var buttonStack: UIStackView!
     
-    @IBOutlet private(set) var gridButton: UIButton!
-    @IBOutlet private(set) var changeCameraButton: UIButton!
-    @IBOutlet private(set) var takePhotoButton: UIButton!
-    @IBOutlet private(set) var changeRatioButton: UIButton!
-    @IBOutlet private(set) var flashlightButton: UIButton!
+    @IBOutlet private var gridButton: UIButton!
+    @IBOutlet private var changeCameraButton: UIButton!
+    @IBOutlet private var takePhotoButton: UIButton!
+    @IBOutlet private var changeRatioButton: UIButton!
+    @IBOutlet private var flashlightButton: UIButton!
     
     @IBAction private func changeGridSetting(_ sender: UIButton) {
         send(.onGridTap, from: sender)
