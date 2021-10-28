@@ -67,25 +67,20 @@ final class CameraControlView: UIView {
     
     private func fill(from viewModel: CameraControlViewViewModel) {
         let (gridColorName, gridImageName) = viewModel.gridButtonConfig()
-        gridButton.setImage(.init(withName: gridImageName), for: .normal)
-        gridButton.tintColor = .init(named: gridColorName)
+        update(gridButton, with: gridColorName, and: gridImageName)
         
         let (changeCameraColorName, changeCameraImageName) = viewModel.changeCameraButtonConfig()
-        changeCameraButton.setImage(.init(withName: changeCameraImageName), for: .normal)
-        changeCameraButton.tintColor = .init(named: changeCameraColorName)
+        update(changeCameraButton, with: changeCameraColorName, and: changeCameraImageName)
         
         let (takePhotoColorName, takePhotoImageName, pointSize) = viewModel.takePhotoButtonConfig()
-        takePhotoButton.setImage(.init(withName: takePhotoImageName), for: .normal)
-        takePhotoButton.tintColor = .init(named: takePhotoColorName)
+        update(takePhotoButton, with: takePhotoColorName, and: takePhotoImageName)
         takePhotoButton.setPreferredSymbolConfiguration(.init(pointSize: pointSize), forImageIn: .normal)
         
         let (changeRatioColorName, changeRatioImageName) = viewModel.changeRatioButtonConfig()
-        changeRatioButton.setImage(.init(withName: changeRatioImageName), for: .normal)
-        changeRatioButton.tintColor = .init(named: changeRatioColorName)
+        update(changeRatioButton, with: changeRatioColorName, and: changeRatioImageName)
         
         let (flashlightColorName, flashlightImageName) = viewModel.flashlightButtonConfig()
-        flashlightButton.setImage(.init(withName: flashlightImageName), for: .normal)
-        flashlightButton.tintColor = .init(named: flashlightColorName)
+        update(flashlightButton, with: flashlightColorName, and: flashlightImageName)
     }
     
     private func update(_ button: UIButton, with tintColorName: String, and imageName: String ) {
