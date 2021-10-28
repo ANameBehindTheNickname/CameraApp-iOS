@@ -6,7 +6,11 @@
 import UIKit
 
 extension UIImage {
-    func withWhiteTintColor() -> UIImage {
-        withTintColor(.white, renderingMode: .alwaysOriginal)
+    convenience init?(withName name: String) {
+        if UIImage(systemName: name) != nil {
+            self.init(systemName: name)
+        } else {
+            self.init(named: name)
+        }
     }
 }
