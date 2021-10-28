@@ -83,7 +83,7 @@ final class CameraControlView: UIView {
         changeRatioButton.setImage(.init(withName: changeRatioImageName), for: .normal)
         changeRatioButton.tintColor = .init(named: changeRatioColorName)
         
-        let (flashlightColorName, flashlightImageName) = viewModel.changeFlashlightButtonConfig()
+        let (flashlightColorName, flashlightImageName) = viewModel.flashlightButtonConfig()
         flashlightButton.setImage(.init(withName: flashlightImageName), for: .normal)
         flashlightButton.tintColor = .init(named: flashlightColorName)
     }

@@ -33,8 +33,6 @@ final class CameraControlViewViewModel {
     private var changeRatioButtonState = ChangeRatioButtonState.fourByThree
     private var flashlightButtonState = FlashlightButtonState.auto
     
-    var flashlightButtonImageName = "bolt.badge.a"
-    
     func gridButtonConfig() -> (tintColorName: String, imageName: String) {
         switch gridButtonState {
         case .on: return ("yellow", "rectangle.split.3x3")
@@ -58,11 +56,11 @@ final class CameraControlViewViewModel {
         }
     }
     
-    func changeFlashlightButtonConfig() -> (tintColorName: String, imageName: String) {
+    func flashlightButtonConfig() -> (tintColorName: String, imageName: String) {
         switch flashlightButtonState {
         case .auto: return ("yellow", "bolt.badge.a")
         case .on: return ("yellow", "bolt")
-        case .off: return ("yellow", "bolt.slash")
+        case .off: return ("white", "bolt.slash")
         }
     }
     
@@ -72,35 +70,33 @@ final class CameraControlViewViewModel {
             switch gridButtonState {
             case .on:
                 gridButtonState = .off
-                completion("white", "rectangle.split.3x3")
             case .off:
                 gridButtonState = .on
-                completion("yellow", "rectangle.split.3x3")
             }
+            
+            completion(gridButtonConfig().tintColorName, gridButtonConfig().imageName)
         case .onChangeRatioTap:
             switch changeRatioButtonState {
             case .sixteenByNine:
                 changeRatioButtonState = .fourByThree
-                completion("white", "fourByThree")
             case .fourByThree:
                 changeRatioButtonState = .oneByOne
-                completion("white", "aspectratio")
             case .oneByOne:
                 changeRatioButtonState = .sixteenByNine
-                completion("white", "sixteenByNine")
             }
+            
+            completion(changeRatioButtonConfig().tintColorName, changeRatioButtonConfig().imageName)
         case .onFlashlightTap:
             switch flashlightButtonState {
             case .auto:
                 flashlightButtonState = .on
-                completion("yellow", "bolt")
             case .on:
                 flashlightButtonState = .off
-                completion("white", "bolt.slash")
             case .off:
                 flashlightButtonState = .auto
-                completion("yellow", "bolt.badge.a")
             }
+            
+            completion(flashlightButtonConfig().tintColorName, flashlightButtonConfig().imageName)
         }
     }
 }
