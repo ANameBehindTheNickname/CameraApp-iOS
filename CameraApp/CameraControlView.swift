@@ -17,22 +17,19 @@ final class CameraControlView: UIView {
     
     @IBAction private func changeGridSetting(_ sender: UIButton) {
         viewModel?.send(event: .onGridTap) { tintColorName, imageName in
-            gridButton.tintColor = .init(named: tintColorName)
-            gridButton.setImage(.init(withName: imageName), for: .normal)
+            update(sender, with: tintColorName, and: imageName)
         }
     }
     
     @IBAction private func changeRatioSetting(_ sender: UIButton) {
         viewModel?.send(event: .onChangeRatioTap) { tintColorName, imageName in
-            changeRatioButton.tintColor = .init(named: tintColorName)
-            changeRatioButton.setImage(.init(withName: imageName), for: .normal)
+            update(sender, with: tintColorName, and: imageName)
         }
     }
     
     @IBAction private func changeFlashlightSetting(_ sender: UIButton) {
         viewModel?.send(event: .onFlashlightTap) { tintColorName, imageName in
-            flashlightButton.tintColor = .init(named: tintColorName)
-            flashlightButton.setImage(.init(withName: imageName), for: .normal)
+            update(sender, with: tintColorName, and: imageName)
         }
     }
     
@@ -91,5 +88,10 @@ final class CameraControlView: UIView {
         case .on: flashlightButton.tintColor = .yellow
         case .off: flashlightButton.tintColor = .white
         }
+    }
+    
+    private func update(_ button: UIButton, with tintColorName: String, and imageName: String ) {
+        button.tintColor = .init(named: tintColorName)
+        button.setImage(.init(withName: imageName), for: .normal)
     }
 }
