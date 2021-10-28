@@ -66,28 +66,26 @@ final class CameraControlView: UIView {
     }
     
     private func fill(from viewModel: CameraControlViewViewModel) {
-        gridButton.setImage(.init(systemName: viewModel.gridButtonImageName), for: .normal)
-        switch viewModel.gridButtonState {
-        case .on: gridButton.tintColor = .yellow
-        case .off: gridButton.tintColor = .white
-        }
+        let (gridColorName, gridImageName) = viewModel.gridButtonConfig()
+        gridButton.setImage(.init(withName: gridImageName), for: .normal)
+        gridButton.tintColor = .init(named: gridColorName)
         
-        changeCameraButton.setImage(.init(systemName: viewModel.changeCameraButtonImageName), for: .normal)
-        changeCameraButton.tintColor = .white
+        let (changeCameraColorName, changeCameraImageName) = viewModel.changeCameraButtonConfig()
+        changeCameraButton.setImage(.init(withName: changeCameraImageName), for: .normal)
+        changeCameraButton.tintColor = .init(named: changeCameraColorName)
         
-        takePhotoButton.setImage(.init(systemName: viewModel.takePhotoButtonImageName), for: .normal)
-        takePhotoButton.setPreferredSymbolConfiguration(.init(pointSize: viewModel.takePhotoButtonSymbolSize), forImageIn: .normal)
-        takePhotoButton.tintColor = .white
+        let (takePhotoColorName, takePhotoImageName, pointSize) = viewModel.takePhotoButtonConfig()
+        takePhotoButton.setImage(.init(withName: takePhotoImageName), for: .normal)
+        takePhotoButton.tintColor = .init(named: takePhotoColorName)
+        takePhotoButton.setPreferredSymbolConfiguration(.init(pointSize: pointSize), forImageIn: .normal)
         
-        changeRatioButton.setImage(.init(named: viewModel.changeRatioButtonImageName), for: .normal)
-        changeRatioButton.tintColor = .white
+        let (changeRatioColorName, changeRatioImageName) = viewModel.changeRatioButtonConfig()
+        changeRatioButton.setImage(.init(withName: changeRatioImageName), for: .normal)
+        changeRatioButton.tintColor = .init(named: changeRatioColorName)
         
-        flashlightButton.setImage(.init(systemName: viewModel.flashlightButtonImageName), for: .normal)
-        switch viewModel.flashlightButtonState {
-        case .auto: flashlightButton.tintColor = .yellow
-        case .on: flashlightButton.tintColor = .yellow
-        case .off: flashlightButton.tintColor = .white
-        }
+        let (flashlightColorName, flashlightImageName) = viewModel.changeFlashlightButtonConfig()
+        flashlightButton.setImage(.init(withName: flashlightImageName), for: .normal)
+        flashlightButton.tintColor = .init(named: flashlightColorName)
     }
     
     private func update(_ button: UIButton, with tintColorName: String, and imageName: String ) {
