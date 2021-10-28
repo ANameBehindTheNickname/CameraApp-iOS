@@ -15,14 +15,30 @@ final class CameraControlView: UIView {
     @IBOutlet private(set) var changeRatioButton: UIButton!
     @IBOutlet private(set) var flashlightButton: UIButton!
     
-    @IBAction private func changeGridSetting(_ sender: UIButton) { viewModel?.send(event: .onGridTap)}
-    @IBAction private func changeRatioSetting(_ sender: UIButton) { viewModel?.send(event: .onChangeRatioTap) }
-    @IBAction private func changeFlashlightSetting(_ sender: UIButton) { viewModel?.send(event: .onFlashlightTap) }
+    @IBAction private func changeGridSetting(_ sender: UIButton) {
+        viewModel?.send(event: .onGridTap) { tintColorName, imageName in
+            gridButton.tintColor = .init(named: tintColorName)
+            gridButton.setImage(.init(withName: imageName), for: .normal)
+        }
+    }
+    
+    @IBAction private func changeRatioSetting(_ sender: UIButton) {
+        viewModel?.send(event: .onChangeRatioTap) { tintColorName, imageName in
+            changeRatioButton.tintColor = .init(named: tintColorName)
+            changeRatioButton.setImage(.init(withName: imageName), for: .normal)
+        }
+    }
+    
+    @IBAction private func changeFlashlightSetting(_ sender: UIButton) {
+        viewModel?.send(event: .onFlashlightTap) { tintColorName, imageName in
+            flashlightButton.tintColor = .init(named: tintColorName)
+            flashlightButton.setImage(.init(withName: imageName), for: .normal)
+        }
+    }
     
     var viewModel: CameraControlViewViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
-            viewModel.observer = self
             fill(from: viewModel)
         }
     }
@@ -75,22 +91,5 @@ final class CameraControlView: UIView {
         case .on: flashlightButton.tintColor = .yellow
         case .off: flashlightButton.tintColor = .white
         }
-    }
-}
-
-extension CameraControlView: CameraControlViewViewModelObserver {
-    func viewModel(didUpdateGridButtonTo tintColorName: String, imageName: String) {
-        gridButton.tintColor = .init(named: tintColorName)
-        gridButton.setImage(.init(withName: imageName), for: .normal)
-    }
-    
-    func viewModel(didUpdateChangeRatioButtonTo tintColorName: String, imageName: String) {
-        changeRatioButton.tintColor = .init(named: tintColorName)
-        changeRatioButton.setImage(.init(withName: imageName), for: .normal)
-    }
-    
-    func viewModel(didUpdateFlashlightButtonTo tintColorName: String, imageName: String) {
-        flashlightButton.tintColor = .init(named: tintColorName)
-        flashlightButton.setImage(.init(withName: imageName), for: .normal)
     }
 }

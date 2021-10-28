@@ -5,12 +5,6 @@
 
 import CoreGraphics
 
-protocol CameraControlViewViewModelObserver {
-    func viewModel(didUpdateGridButtonTo tintColorName: String, imageName: String)
-    func viewModel(didUpdateChangeRatioButtonTo tintColorName: String, imageName: String)
-    func viewModel(didUpdateFlashlightButtonTo tintColorName: String, imageName: String)
-}
-
 final class CameraControlViewViewModel {
     enum GridButtonState {
         case on
@@ -46,42 +40,40 @@ final class CameraControlViewViewModel {
     var changeRatioButtonImageName = "sixteenByNine"
     var flashlightButtonImageName = "bolt.badge.a"
     
-    var observer: CameraControlViewViewModelObserver?
-    
-    func send(event: Event) {
+    func send(event: Event, completion: (_ tintColorName: String, _ imageName: String) -> Void) {
         switch event {
         case .onGridTap:
             switch gridButtonState {
             case .on:
                 gridButtonState = .off
-                observer?.viewModel(didUpdateGridButtonTo: "white", imageName: "rectangle.split.3x3")
+                completion("white", "rectangle.split.3x3")
             case .off:
                 gridButtonState = .on
-                observer?.viewModel(didUpdateGridButtonTo: "yellow", imageName: "rectangle.split.3x3")
+                completion("yellow", "rectangle.split.3x3")
             }
         case .onChangeRatioTap:
             switch changeRatioButtonState {
             case .sixteenByNine:
                 changeRatioButtonState = .fourByThree
-                observer?.viewModel(didUpdateChangeRatioButtonTo: "white", imageName: "fourByThree")
+                completion("white", "fourByThree")
             case .fourByThree:
                 changeRatioButtonState = .oneByOne
-                observer?.viewModel(didUpdateChangeRatioButtonTo: "white", imageName: "aspectratio")
+                completion("white", "aspectratio")
             case .oneByOne:
                 changeRatioButtonState = .sixteenByNine
-                observer?.viewModel(didUpdateChangeRatioButtonTo: "white", imageName: "sixteenByNine")
+                completion("white", "sixteenByNine")
             }
         case .onFlashlightTap:
             switch flashlightButtonState {
             case .auto:
                 flashlightButtonState = .on
-                observer?.viewModel(didUpdateFlashlightButtonTo: "yellow", imageName: "bolt")
+                completion("yellow", "bolt")
             case .on:
                 flashlightButtonState = .off
-                observer?.viewModel(didUpdateFlashlightButtonTo: "white", imageName: "bolt.slash")
+                completion("white", "bolt.slash")
             case .off:
                 flashlightButtonState = .auto
-                observer?.viewModel(didUpdateFlashlightButtonTo: "yellow", imageName: "bolt.badge.a")
+                completion("yellow", "bolt.badge.a")
             }
         }
     }
