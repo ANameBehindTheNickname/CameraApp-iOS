@@ -6,97 +6,49 @@
 import CoreGraphics
 
 final class CameraControlViewViewModel {
-    private enum GridButtonState {
-        case on
-        case off
-    }
+    typealias Event = CameraControlStateMachine.Event
     
-    private enum ChangeRatioButtonState {
-        case sixteenByNine
-        case fourByThree
-        case oneByOne
-    }
+    private let stateMachine: CameraControlStateMachine
+    private let uiConfigurator: CameraControlViewUIConfigurator
     
-    private enum FlashlightButtonState {
-        case auto
-        case on
-        case off
+    init(_ stateMachine: CameraControlStateMachine, _ uiConfigurator: CameraControlViewUIConfigurator) {
+        self.stateMachine = stateMachine
+        self.uiConfigurator = uiConfigurator
     }
-    
-    enum Event {
-        case onGridTap
-        case onChangeRatioTap
-        case onFlashlightTap
-    }
-    
-    private var gridButtonState = GridButtonState.off
-    private var changeRatioButtonState = ChangeRatioButtonState.fourByThree
-    private var flashlightButtonState = FlashlightButtonState.auto
     
     func gridButtonConfig() -> (tintColorName: String, imageName: String) {
-        switch gridButtonState {
-        case .on: return ("yellow", "rectangle.split.3x3")
-        case .off: return ("white", "rectangle.split.3x3")
-        }
+        uiConfigurator.gridButtonConfig(for: stateMachine.gridButtonState)
     }
     
     func changeCameraButtonConfig() -> (tintColorName: String, imageName: String) {
-        ("white", "arrow.triangle.2.circlepath.camera")
+        uiConfigurator.changeCameraButtonConfig()
     }
     
     func takePhotoButtonConfig() -> (tintColorName: String, imageName: String, pointSize: CGFloat) {
-        ("white", "largecircle.fill.circle", 55)
+        uiConfigurator.takePhotoButtonConfig()
     }
     
     func changeRatioButtonConfig() -> (tintColorName: String, imageName: String) {
-        switch changeRatioButtonState {
-        case .sixteenByNine: return ("white", "sixteenByNine")
-        case .fourByThree: return ("white", "fourByThree")
-        case .oneByOne: return ("white", "aspectratio")
-        }
+        uiConfigurator.changeRatioButtonConfig(for: stateMachine.changeRatioButtonState)
     }
     
     func flashlightButtonConfig() -> (tintColorName: String, imageName: String) {
-        switch flashlightButtonState {
-        case .auto: return ("yellow", "bolt.badge.a")
-        case .on: return ("yellow", "bolt")
-        case .off: return ("white", "bolt.slash")
-        }
+        uiConfigurator.flashlightButtonConfig(for: stateMachine.flashlightButtonState)
     }
     
     func send(event: Event, completion: (_ tintColorName: String, _ imageName: String) -> Void) {
+        stateMachine.updateState(with: event)
+        
+        var configuration = (tintColorName: "", imageName: "")
         switch event {
         case .onGridTap:
-            switch gridButtonState {
-            case .on:
-                gridButtonState = .off
-            case .off:
-                gridButtonState = .on
-            }
-            
-            completion(gridButtonConfig().tintColorName, gridButtonConfig().imageName)
+            configuration = gridButtonConfig()
         case .onChangeRatioTap:
-            switch changeRatioButtonState {
-            case .sixteenByNine:
-                changeRatioButtonState = .fourByThree
-            case .fourByThree:
-                changeRatioButtonState = .oneByOne
-            case .oneByOne:
-                changeRatioButtonState = .sixteenByNine
-            }
-            
-            completion(changeRatioButtonConfig().tintColorName, changeRatioButtonConfig().imageName)
+            configuration = changeRatioButtonConfig()
         case .onFlashlightTap:
-            switch flashlightButtonState {
-            case .auto:
-                flashlightButtonState = .on
-            case .on:
-                flashlightButtonState = .off
-            case .off:
-                flashlightButtonState = .auto
-            }
-            
-            completion(flashlightButtonConfig().tintColorName, flashlightButtonConfig().imageName)
+            configuration = flashlightButtonConfig()
         }
+        
+        completion(configuration.tintColorName, configuration.imageName)
     }
 }
