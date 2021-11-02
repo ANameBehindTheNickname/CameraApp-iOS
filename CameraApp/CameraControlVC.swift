@@ -7,9 +7,11 @@ import UIKit
 
 final class CameraControlVC: UIViewController {
     
+    private let cameraControlView: CameraControlView
     private let cameraControlVM: CameraControlViewViewModel
     
-    init(cameraControlVM: CameraControlViewViewModel) {
+    init(cameraControlView: CameraControlView, cameraControlVM: CameraControlViewViewModel) {
+        self.cameraControlView = cameraControlView
         self.cameraControlVM = cameraControlVM
         super.init(nibName: nil, bundle: nil)
     }
@@ -18,12 +20,8 @@ final class CameraControlVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var cameraControlView: CameraControlView {
-        view as! CameraControlView
-    }
-    
     override func loadView() {
-        view = CameraControlView()
+        view = cameraControlView
     }
     
     override func viewDidLoad() {
