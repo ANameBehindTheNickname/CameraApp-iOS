@@ -19,6 +19,10 @@ final class CameraControlView: UIView {
         send(.onGridTap, from: sender)
     }
     
+    @IBAction private func changeCamera(_ sender: UIButton) {
+        delegate?.didTapChangeCameraButton()
+    }
+    
     @IBAction private func changeRatioSetting(_ sender: UIButton) {
         send(.onChangeRatioTap, from: sender)
     }
@@ -33,6 +37,8 @@ final class CameraControlView: UIView {
             fill(from: viewModel)
         }
     }
+    
+    weak var delegate: CameraControlViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

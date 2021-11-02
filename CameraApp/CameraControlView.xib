@@ -35,6 +35,9 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iL6-7g-vhs">
                             <rect key="frame" x="108.5" y="36" width="30" height="30"/>
+                            <connections>
+                                <action selector="changeCamera:" destination="-1" eventType="touchUpInside" id="QwY-1G-8B3"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RKe-e2-7Wc">
                             <rect key="frame" x="216.5" y="36" width="30" height="30"/>
