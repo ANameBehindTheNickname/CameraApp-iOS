@@ -51,12 +51,21 @@ final class CameraControlView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         setupSubviews()
+        constraintSubviews()
     }
     
     private func setupSubviews() {
         contentView.backgroundColor = .clear
         buttonStack.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         buttonStack.isLayoutMarginsRelativeArrangement = true
+        changeRatioButton.imageView?.contentMode = .scaleAspectFit
+    }
+    
+    private func constraintSubviews() {
+        [gridButton, changeCameraButton, changeRatioButton, flashlightButton].forEach {
+            $0?.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            $0?.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        }
     }
     
     private func fill(from viewModel: CameraControlViewViewModel) {
