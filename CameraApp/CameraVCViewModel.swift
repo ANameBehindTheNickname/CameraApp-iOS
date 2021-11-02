@@ -4,20 +4,31 @@
 //
 
 import AVFoundation
+import Photos
 
-struct CameraVCViewModel {
+final class CameraVCViewModel: NSObject {
     let captureSession: AVCaptureSession
     private let sessionQueue = DispatchQueue(label: "com.manbehindnickname.CameraApp.sessionQueue")
+    private let photoOutput = AVCapturePhotoOutput()
     
-    func requestCapturePermissions() {
+    init(captureSession: AVCaptureSession) {
+        self.captureSession = captureSession
+    }
+    
+    func requestPermissions() {
+        requestCapturePermissions(isGrantedCompletion: requestPhotoLibraryPermissions)
+    }
+    
+    private func requestCapturePermissions(isGrantedCompletion: (() -> (Void))?) {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
             configure(captureSession)
+            isGrantedCompletion?()
         case .notDetermined:
-            sessionQueue.suspend()
             AVCaptureDevice.requestAccess(for: .video) { isGranted in
                 if isGranted {
-                    configure(captureSession)
+                    self.configure(self.captureSession)
+                    isGrantedCompletion?()
                 }
             }
         case .restricted, .denied: return
@@ -25,11 +36,21 @@ struct CameraVCViewModel {
         }
     }
     
+    private func requestPhotoLibraryPermissions() {
+        switch PHPhotoLibrary.authorizationStatus(for: .addOnly) {
+        case .authorized: return
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { _ in }
+        case .restricted, .denied, .limited: return
+        @unknown default: return
+        }
+    }
+    
     private func configure(_ captureSession: AVCaptureSession) {
         sessionQueue.async {
             captureSession.beginConfiguration()
-            addInput(to: captureSession)
-            addOutput(to: captureSession)
+            self.addInput(to: captureSession)
+            self.addOutput(to: captureSession)
             captureSession.commitConfiguration()
             captureSession.startRunning()
         }
@@ -45,7 +66,6 @@ struct CameraVCViewModel {
     }
     
     private func addOutput(to captureSession: AVCaptureSession) {
-        let photoOutput = AVCapturePhotoOutput()
         guard captureSession.canAddOutput(photoOutput) else { return }
         captureSession.sessionPreset = .photo
         captureSession.addOutput(photoOutput)

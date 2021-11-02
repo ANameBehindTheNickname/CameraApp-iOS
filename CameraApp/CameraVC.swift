@@ -29,7 +29,7 @@ final class CameraVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.requestCapturePermissions()
+        viewModel.requestPermissions()
         previewView.videoLayer.session = viewModel.captureSession
     }
 }

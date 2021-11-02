@@ -60,6 +60,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Access is required to take photos</string>
+	<string>Allow to take photos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Allow to add photos you take to the Photos app</string>
 </dict>
 </plist>
