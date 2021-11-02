@@ -9,6 +9,7 @@ import Photos
 final class CameraVCViewModel: NSObject {
     let captureSession: AVCaptureSession
     private let sessionQueue = DispatchQueue(label: "com.manbehindnickname.CameraApp.sessionQueue")
+    private var captureDeviceInput: AVCaptureDeviceInput?
     private let photoOutput = AVCapturePhotoOutput()
     
     init(captureSession: AVCaptureSession) {
@@ -62,6 +63,7 @@ final class CameraVCViewModel: NSObject {
               captureSession.canAddInput(videoDeviceInput)
         else { return }
         
+        self.captureDeviceInput = videoDeviceInput
         captureSession.addInput(videoDeviceInput)
     }
     
@@ -73,5 +75,38 @@ final class CameraVCViewModel: NSObject {
     
     private func makeCameraDevice() -> AVCaptureDevice? {
         AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+    }
+}
+
+extension CameraVCViewModel: CameraControlViewDelegate {
+    func didTapChangeCameraButton() {
+        guard let captureDeviceInput = captureDeviceInput  else { return }
+        let captureDevicePosition = captureDeviceInput.device.position
+        
+        var newCaptureDevice: AVCaptureDevice?
+        switch captureDevicePosition {
+        case .unspecified, .front:
+            newCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        case .back:
+            newCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+        @unknown default:
+            newCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+        }
+        
+        if let newCaptureDevice = newCaptureDevice,
+           let newCaptureDeviceInput = try? AVCaptureDeviceInput(device: newCaptureDevice) {
+            sessionQueue.async {
+                self.captureSession.beginConfiguration()
+                self.captureSession.removeInput(captureDeviceInput)
+                if self.captureSession.canAddInput(newCaptureDeviceInput) {
+                    self.captureSession.addInput(newCaptureDeviceInput)
+                    self.captureDeviceInput = newCaptureDeviceInput
+                } else {
+                    self.captureSession.addInput(captureDeviceInput)
+                }
+                
+                self.captureSession.commitConfiguration()
+            }
+        }
     }
 }
