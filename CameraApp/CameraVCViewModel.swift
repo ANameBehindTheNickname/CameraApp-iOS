@@ -13,12 +13,8 @@ final class CameraVCViewModel: NSObject {
     
     private let sessionConfigurator: SessionConfigurator
     
-    init(captureSession: AVCaptureSession, sessionConfigurator: SessionConfigurator? = nil) {
-        if let configurator = sessionConfigurator {
-            self.sessionConfigurator = configurator
-        } else {
-            self.sessionConfigurator = .init(captureSession: captureSession)
-        }
+    init(sessionConfigurator: SessionConfigurator) {
+        self.sessionConfigurator = sessionConfigurator
     }
     
     func requestPermissions() {
