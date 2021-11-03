@@ -4,7 +4,6 @@
 //
 
 import AVFoundation
-import Photos
 
 final class CameraManager: NSObject {
     private var captureSession: AVCaptureSession {
@@ -12,41 +11,20 @@ final class CameraManager: NSObject {
     }
     
     private let sessionConfigurator: SessionConfigurator
+    private let photoSaver: PhotoSaver
     
-    init(_ sessionConfigurator: SessionConfigurator) {
+    init(_ sessionConfigurator: SessionConfigurator, _ photoSaver: PhotoSaver) {
         self.sessionConfigurator = sessionConfigurator
+        self.photoSaver = photoSaver
     }
     
     func flipCamera() {
         sessionConfigurator.sessionQueue.async {
-            self.sessionConfigurator.addInput(to: self.captureSession)
+            self.sessionConfigurator.addInput(to: self.sessionConfigurator.captureSession)
         }
     }
     
     func takePhoto() {
-        sessionConfigurator.photoOutput.capturePhoto(with: .init(), delegate: self)
-    }
-}
-
-extension CameraManager: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard error == nil else {
-            return print("Error capturing photo: \(error!)")
-        }
-        
-        switch PHPhotoLibrary.authorizationStatus(for: .addOnly) {
-        case .authorized:
-            
-            guard let photoData = photo.fileDataRepresentation() else { return }
-            
-            PHPhotoLibrary.shared().performChanges {
-                let creationRequest = PHAssetCreationRequest.forAsset()
-                creationRequest.addResource(with: .photo, data: photoData, options: nil)
-            } completionHandler: { _, _ in }
-
-        case .notDetermined: return
-        case .restricted, .denied, .limited: return
-        @unknown default: return
-        }
+        sessionConfigurator.photoOutput.capturePhoto(with: .init(), delegate: photoSaver)
     }
 }
