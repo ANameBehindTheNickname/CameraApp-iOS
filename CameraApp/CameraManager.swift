@@ -6,14 +6,14 @@
 import AVFoundation
 import Photos
 
-final class CameraVCViewModel: NSObject {
+final class CameraManager: NSObject {
     var captureSession: AVCaptureSession {
         sessionConfigurator.captureSession
     }
     
     private let sessionConfigurator: SessionConfigurator
     
-    init(sessionConfigurator: SessionConfigurator) {
+    init(_ sessionConfigurator: SessionConfigurator) {
         self.sessionConfigurator = sessionConfigurator
     }
     
@@ -49,7 +49,7 @@ final class CameraVCViewModel: NSObject {
     }
 }
 
-extension CameraVCViewModel: CameraControlViewDelegate {
+extension CameraManager: CameraControlViewDelegate {
     func didTapChangeCameraButton() {
         sessionConfigurator.sessionQueue.async {
             self.sessionConfigurator.addInput(to: self.captureSession)
@@ -61,7 +61,7 @@ extension CameraVCViewModel: CameraControlViewDelegate {
     }
 }
 
-extension CameraVCViewModel: AVCapturePhotoCaptureDelegate {
+extension CameraManager: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else {
             return print("Error capturing photo: \(error!)")
