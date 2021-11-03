@@ -11,6 +11,7 @@
 		F8021CBD2726938B00C11114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8021CBC2726938B00C11114 /* SceneDelegate.swift */; };
 		F8021CC42726938B00C11114 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8021CC32726938B00C11114 /* Assets.xcassets */; };
 		F8021CC72726938B00C11114 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8021CC52726938B00C11114 /* LaunchScreen.storyboard */; };
+		F80F6BF92732E47600C43602 /* CameraManagerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */; };
 		F8387DFA2731590F0011A93B /* CameraControlViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8387DF92731590F0011A93B /* CameraControlViewDelegate.swift */; };
 		F86EA8A7272BE44F007EA421 /* CameraControlStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */; };
 		F86EA8A9272BE46E007EA421 /* CameraControlViewUIConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */; };
@@ -35,6 +36,7 @@
 		F8021CC32726938B00C11114 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8021CC62726938B00C11114 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F8021CC82726938B00C11114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManagerAdapter.swift; sourceTree = "<group>"; };
 		F8387DF92731590F0011A93B /* CameraControlViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlViewDelegate.swift; sourceTree = "<group>"; };
 		F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlStateMachine.swift; sourceTree = "<group>"; };
 		F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlViewUIConfigurator.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		F8021CB92726938B00C11114 /* CameraApp */ = {
 			isa = PBXGroup;
 			children = (
+				F80F6BF72732E46F00C43602 /* Main */,
 				F889A4A82732B28100C03B98 /* Domain */,
 				F8EA43072727E67600C75420 /* Extensions */,
 				F8021CBA2726938B00C11114 /* AppDelegate.swift */,
@@ -94,7 +97,6 @@
 				F8EA43052727DF4F00C75420 /* CameraControlView.xib */,
 				F8387DF92731590F0011A93B /* CameraControlViewDelegate.swift */,
 				F8B72ACD2726A2AA00D85619 /* CameraVC.swift */,
-				F8714FF02726D6B700EDB632 /* CameraManager.swift */,
 				F8B72AD12726B1D000D85619 /* PreviewView.swift */,
 				F8021CC32726938B00C11114 /* Assets.xcassets */,
 				F8021CC52726938B00C11114 /* LaunchScreen.storyboard */,
@@ -103,9 +105,18 @@
 			path = CameraApp;
 			sourceTree = "<group>";
 		};
+		F80F6BF72732E46F00C43602 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		F889A4A82732B28100C03B98 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				F8714FF02726D6B700EDB632 /* CameraManager.swift */,
 				F889A4A62732B26900C03B98 /* SessionConfigurator.swift */,
 				F889A4A92732DC0700C03B98 /* PermissionsManager.swift */,
 			);
@@ -192,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F80F6BF92732E47600C43602 /* CameraManagerAdapter.swift in Sources */,
 				F8EA43022727DF2A00C75420 /* CameraControlVC.swift in Sources */,
 				F8387DFA2731590F0011A93B /* CameraControlViewDelegate.swift in Sources */,
 				F8714FF12726D6B700EDB632 /* CameraManager.swift in Sources */,

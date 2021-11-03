@@ -7,7 +7,7 @@ import AVFoundation
 import Photos
 
 final class CameraManager: NSObject {
-    var captureSession: AVCaptureSession {
+    private var captureSession: AVCaptureSession {
         sessionConfigurator.captureSession
     }
     
@@ -16,16 +16,14 @@ final class CameraManager: NSObject {
     init(_ sessionConfigurator: SessionConfigurator) {
         self.sessionConfigurator = sessionConfigurator
     }
-}
-
-extension CameraManager: CameraControlViewDelegate {
-    func didTapChangeCameraButton() {
+    
+    func flipCamera() {
         sessionConfigurator.sessionQueue.async {
             self.sessionConfigurator.addInput(to: self.captureSession)
         }
     }
     
-    func didTapTakePhotoButton() {
+    func takePhoto() {
         sessionConfigurator.photoOutput.capturePhoto(with: .init(), delegate: self)
     }
 }
