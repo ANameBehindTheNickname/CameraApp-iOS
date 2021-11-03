@@ -9,7 +9,6 @@ import Photos
 final class CameraVCViewModel: NSObject {
     let captureSession: AVCaptureSession
     private let sessionQueue = DispatchQueue(label: "com.manbehindnickname.CameraApp.sessionQueue")
-    private var deviceInput: AVCaptureDeviceInput?
     private let photoOutput = AVCapturePhotoOutput()
     
     init(captureSession: AVCaptureSession) {
@@ -49,64 +48,50 @@ final class CameraVCViewModel: NSObject {
     
     private func configure(_ captureSession: AVCaptureSession) {
         sessionQueue.async {
-            captureSession.beginConfiguration()
             self.addInput(to: captureSession)
             self.addOutput(to: captureSession)
-            captureSession.commitConfiguration()
             captureSession.startRunning()
         }
     }
     
     private func addInput(to captureSession: AVCaptureSession) {
-        guard let cameraDevice = makeCameraDevice(),
-              let deviceInput = try? AVCaptureDeviceInput(device: cameraDevice),
-              captureSession.canAddInput(deviceInput)
-        else { return }
+        captureSession.beginConfiguration()
+        defer { captureSession.commitConfiguration() }
         
-        self.deviceInput = deviceInput
-        captureSession.addInput(deviceInput)
+        let position = removeCurrentDeviceInput(from: captureSession)?.device.position.flipped() ?? .front
+
+        if let cameraDevice = cameraDevice(for: position),
+              let newDeviceInput = try? AVCaptureDeviceInput(device: cameraDevice),
+              captureSession.canAddInput(newDeviceInput) {
+            captureSession.addInput(newDeviceInput)
+        }
+    }
+    
+    private func removeCurrentDeviceInput(from session: AVCaptureSession) -> AVCaptureDeviceInput? {
+        (captureSession.inputs.first as? AVCaptureDeviceInput).map {
+            captureSession.removeInput($0)
+            return $0
+        }
+    }
+    
+    private func cameraDevice(for position: AVCaptureDevice.Position) -> AVCaptureDevice? {
+        AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position)
     }
     
     private func addOutput(to captureSession: AVCaptureSession) {
+        captureSession.beginConfiguration()
+        defer { captureSession.commitConfiguration() }
+        
         guard captureSession.canAddOutput(photoOutput) else { return }
         captureSession.sessionPreset = .photo
         captureSession.addOutput(photoOutput)
-    }
-    
-    private func makeCameraDevice() -> AVCaptureDevice? {
-        AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
     }
 }
 
 extension CameraVCViewModel: CameraControlViewDelegate {
     func didTapChangeCameraButton() {
-        guard let captureDeviceInput = deviceInput  else { return }
-        let captureDevicePosition = captureDeviceInput.device.position
-        
-        var newCaptureDevice: AVCaptureDevice?
-        switch captureDevicePosition {
-        case .unspecified, .front:
-            newCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-        case .back:
-            newCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
-        @unknown default:
-            newCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
-        }
-        
-        if let newCaptureDevice = newCaptureDevice,
-           let newCaptureDeviceInput = try? AVCaptureDeviceInput(device: newCaptureDevice) {
-            sessionQueue.async {
-                self.captureSession.beginConfiguration()
-                self.captureSession.removeInput(captureDeviceInput)
-                if self.captureSession.canAddInput(newCaptureDeviceInput) {
-                    self.captureSession.addInput(newCaptureDeviceInput)
-                    self.deviceInput = newCaptureDeviceInput
-                } else {
-                    self.captureSession.addInput(captureDeviceInput)
-                }
-                
-                self.captureSession.commitConfiguration()
-            }
+        sessionQueue.async {
+            self.addInput(to: self.captureSession)
         }
     }
 }
