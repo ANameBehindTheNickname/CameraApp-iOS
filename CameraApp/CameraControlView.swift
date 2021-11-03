@@ -23,6 +23,10 @@ final class CameraControlView: UIView {
         delegate?.didTapChangeCameraButton()
     }
     
+    @IBAction private func takePhoto(_ sender: UIButton) {
+        delegate?.didTapTakePhotoButton()
+    }
+    
     @IBAction private func changeRatioSetting(_ sender: UIButton) {
         send(.onChangeRatioTap, from: sender)
     }

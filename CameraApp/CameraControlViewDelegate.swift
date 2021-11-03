@@ -7,4 +7,5 @@ import Foundation
 
 protocol CameraControlViewDelegate: AnyObject {
     func didTapChangeCameraButton()
+    func didTapTakePhotoButton()
 }
