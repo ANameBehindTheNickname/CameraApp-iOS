@@ -14,11 +14,11 @@ final class SessionConfigurator {
         self.captureSession = captureSession
     }
     
-    func configure(_ captureSession: AVCaptureSession) {
+    func configure() {
         sessionQueue.async {
-            self.addInput(to: captureSession)
-            self.addOutput(to: captureSession)
-            captureSession.startRunning()
+            self.addInput(to: self.captureSession)
+            self.addOutput(to: self.captureSession)
+            self.captureSession.startRunning()
         }
     }
     

@@ -16,37 +16,6 @@ final class CameraManager: NSObject {
     init(_ sessionConfigurator: SessionConfigurator) {
         self.sessionConfigurator = sessionConfigurator
     }
-    
-    func requestPermissions() {
-        requestCapturePermissions(isGrantedCompletion: requestPhotoLibraryPermissions)
-    }
-    
-    private func requestCapturePermissions(isGrantedCompletion: (() -> (Void))?) {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized:
-            sessionConfigurator.configure(captureSession)
-            isGrantedCompletion?()
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { isGranted in
-                if isGranted {
-                    self.sessionConfigurator.configure(self.captureSession)
-                    isGrantedCompletion?()
-                }
-            }
-        case .restricted, .denied: return
-        @unknown default: return
-        }
-    }
-    
-    private func requestPhotoLibraryPermissions() {
-        switch PHPhotoLibrary.authorizationStatus(for: .addOnly) {
-        case .authorized: return
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization(for: .addOnly) { _ in }
-        case .restricted, .denied, .limited: return
-        @unknown default: return
-        }
-    }
 }
 
 extension CameraManager: CameraControlViewDelegate {
