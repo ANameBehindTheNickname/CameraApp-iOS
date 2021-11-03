@@ -8,6 +8,7 @@ import UIKit
 final class CameraVC: UIViewController {
 
     private let previewView: PreviewView
+    var onViewDidLoad = { }
     
     init(_ previewView: PreviewView) {
         self.previewView = previewView
@@ -20,5 +21,10 @@ final class CameraVC: UIViewController {
     
     override func loadView() {
         view = previewView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        onViewDidLoad()
     }
 }
