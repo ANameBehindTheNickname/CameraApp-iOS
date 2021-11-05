@@ -35,7 +35,9 @@ final class CameraControlViewViewModel {
     }
     
     func flashlightButtonConfig() -> (tintColorName: String, imageName: String) {
-        uiConfigurator.flashlightButtonConfig(for: stateMachine.flashlightButtonState)
+        let flashlightState = stateMachine.flashlightButtonState
+        delegate?.didSetFlashlight(to: flashlightState)
+        return uiConfigurator.flashlightButtonConfig(for: flashlightState)
     }
     
     func send(event: Event, completion: ((String, String)?) -> Void) {

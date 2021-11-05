@@ -17,4 +17,12 @@ final class CameraManagerAdapter: CameraControlViewVMDelegate {
     func didTakePhoto() {
         cameraManager.takePhoto()
     }
+    
+    func didSetFlashlight(to state: CameraControlStateMachine.FlashlightButtonState) {
+        switch state {
+        case .auto: cameraManager.setFlashMode(to: .auto)
+        case .on: cameraManager.setFlashMode(to: .on)
+        case .off: cameraManager.setFlashMode(to: .off)
+        }
+    }
 }

@@ -12,6 +12,7 @@ final class CameraManager: NSObject {
     
     private let sessionConfigurator: SessionConfigurator
     private let photoSaver: PhotoSaver
+    private let captureSettings = AVCapturePhotoSettings()
     
     init(_ sessionConfigurator: SessionConfigurator, _ photoSaver: PhotoSaver) {
         self.sessionConfigurator = sessionConfigurator
@@ -25,6 +26,10 @@ final class CameraManager: NSObject {
     }
     
     func takePhoto() {
-        sessionConfigurator.photoOutput.capturePhoto(with: .init(), delegate: photoSaver)
+        sessionConfigurator.photoOutput.capturePhoto(with: .init(from: captureSettings), delegate: photoSaver)
+    }
+    
+    func setFlashMode(to mode: AVCaptureDevice.FlashMode) {
+        captureSettings.flashMode = mode
     }
 }
