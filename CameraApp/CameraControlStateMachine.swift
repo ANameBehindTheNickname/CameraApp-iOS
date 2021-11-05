@@ -25,6 +25,8 @@ final class CameraControlStateMachine {
     
     enum Event {
         case onGridTap
+        case onChangeCameraTap
+        case onTakePhotoTap
         case onChangeRatioTap
         case onFlashlightTap
     }
@@ -60,6 +62,7 @@ final class CameraControlStateMachine {
             case .off:
                 flashlightButtonState = .auto
             }
+        case .onChangeCameraTap, .onTakePhotoTap: break
         }
     }
 }

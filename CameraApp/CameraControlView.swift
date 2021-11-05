@@ -20,11 +20,11 @@ final class CameraControlView: UIView {
     }
     
     @IBAction private func changeCamera(_ sender: UIButton) {
-        delegate?.didTapChangeCameraButton()
+        send(.onChangeCameraTap, from: sender)
     }
     
     @IBAction private func takePhoto(_ sender: UIButton) {
-        delegate?.didTapTakePhotoButton()
+        send(.onTakePhotoTap, from: sender)
     }
     
     @IBAction private func changeRatioSetting(_ sender: UIButton) {
@@ -41,8 +41,6 @@ final class CameraControlView: UIView {
             fill(from: viewModel)
         }
     }
-    
-    weak var delegate: CameraControlViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -97,8 +95,10 @@ final class CameraControlView: UIView {
     }
     
     private func send(_ event: CameraControlViewViewModel.Event, from button: UIButton) {
-        viewModel?.send(event: event) { tintColorName, imageName in
-            update(button, with: tintColorName, and: imageName)
+        viewModel?.send(event: event) {
+            $0.map { (tintColorName, imageName) in
+                update(button, with: tintColorName, and: imageName)
+            }
         }
     }
     

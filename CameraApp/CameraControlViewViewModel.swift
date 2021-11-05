@@ -11,6 +11,8 @@ final class CameraControlViewViewModel {
     private let stateMachine: CameraControlStateMachine
     private let uiConfigurator: CameraControlViewUIConfigurator
     
+    weak var delegate: CameraControlViewVMDelegate?
+    
     init(_ stateMachine: CameraControlStateMachine, _ uiConfigurator: CameraControlViewUIConfigurator) {
         self.stateMachine = stateMachine
         self.uiConfigurator = uiConfigurator
@@ -36,10 +38,10 @@ final class CameraControlViewViewModel {
         uiConfigurator.flashlightButtonConfig(for: stateMachine.flashlightButtonState)
     }
     
-    func send(event: Event, completion: (_ tintColorName: String, _ imageName: String) -> Void) {
+    func send(event: Event, completion: ((String, String)?) -> Void) {
         stateMachine.updateState(with: event)
         
-        var configuration = (tintColorName: "", imageName: "")
+        var configuration = (String, String)?.none
         switch event {
         case .onGridTap:
             configuration = gridButtonConfig()
@@ -47,8 +49,12 @@ final class CameraControlViewViewModel {
             configuration = changeRatioButtonConfig()
         case .onFlashlightTap:
             configuration = flashlightButtonConfig()
+        case .onChangeCameraTap:
+            delegate?.didChangeCamera()
+        case .onTakePhotoTap:
+            delegate?.didTakePhoto()
         }
         
-        completion(configuration.tintColorName, configuration.imageName)
+        completion(configuration)
     }
 }
