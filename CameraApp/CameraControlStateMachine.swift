@@ -14,7 +14,6 @@ final class CameraControlStateMachine {
     enum ChangeRatioButtonState {
         case sixteenByNine
         case fourByThree
-        case oneByOne
     }
     
     enum FlashlightButtonState {
@@ -49,8 +48,6 @@ final class CameraControlStateMachine {
             case .sixteenByNine:
                 changeRatioButtonState = .fourByThree
             case .fourByThree:
-                changeRatioButtonState = .oneByOne
-            case .oneByOne:
                 changeRatioButtonState = .sixteenByNine
             }
         case .onFlashlightTap:

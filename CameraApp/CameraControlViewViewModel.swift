@@ -49,6 +49,7 @@ final class CameraControlViewViewModel {
             configuration = gridButtonConfig()
         case .onChangeRatioTap:
             configuration = changeRatioButtonConfig()
+            delegate?.didSetRatio(to: stateMachine.changeRatioButtonState)
         case .onFlashlightTap:
             configuration = flashlightButtonConfig()
         case .onChangeCameraTap:

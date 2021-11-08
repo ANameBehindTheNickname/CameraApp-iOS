@@ -6,10 +6,6 @@
 import AVFoundation
 
 final class CameraManager: NSObject {
-    private var captureSession: AVCaptureSession {
-        sessionConfigurator.captureSession
-    }
-    
     private let sessionConfigurator: SessionConfigurator
     private let photoSaver: PhotoSaver
     private let captureSettings = AVCapturePhotoSettings()
@@ -31,5 +27,9 @@ final class CameraManager: NSObject {
     
     func setFlashMode(to mode: AVCaptureDevice.FlashMode) {
         captureSettings.flashMode = mode
+    }
+    
+    func setResolution(to preset: AVCaptureSession.Preset) {
+        sessionConfigurator.set(preset)
     }
 }

@@ -18,6 +18,13 @@ final class CameraManagerAdapter: CameraControlViewVMDelegate {
         cameraManager.takePhoto()
     }
     
+    func didSetRatio(to state: CameraControlStateMachine.ChangeRatioButtonState) {
+        switch state {
+        case .sixteenByNine: cameraManager.setResolution(to: .hd1280x720)
+        case .fourByThree: cameraManager.setResolution(to: .photo)
+        }
+    }
+    
     func didSetFlashlight(to state: CameraControlStateMachine.FlashlightButtonState) {
         switch state {
         case .auto: cameraManager.setFlashMode(to: .auto)
