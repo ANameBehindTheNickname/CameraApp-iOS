@@ -22,6 +22,10 @@ final class SessionConfigurator {
         }
     }
     
+    func set(_ preset: AVCaptureSession.Preset) {
+        captureSession.sessionPreset = captureSession.canSetSessionPreset(preset) ? preset : .photo
+    }
+    
     func addInput(to captureSession: AVCaptureSession) {
         captureSession.beginConfiguration()
         defer { captureSession.commitConfiguration() }
@@ -51,7 +55,6 @@ final class SessionConfigurator {
         defer { captureSession.commitConfiguration() }
         
         guard captureSession.canAddOutput(photoOutput) else { return }
-        captureSession.sessionPreset = .photo
         captureSession.addOutput(photoOutput)
     }
 }
