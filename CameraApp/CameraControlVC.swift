@@ -8,7 +8,7 @@ import UIKit
 final class CameraControlVC: UIViewController {
     
     private let cameraControlView: CameraControlView
-    private let cameraControlVM: CameraControlViewViewModel
+    let cameraControlVM: CameraControlViewViewModel
     
     init(cameraControlView: CameraControlView, cameraControlVM: CameraControlViewViewModel) {
         self.cameraControlView = cameraControlView
