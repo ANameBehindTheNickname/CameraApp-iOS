@@ -21,7 +21,8 @@ final class CameraManager: NSObject {
         }
     }
     
-    func takePhoto() {
+    func takePhoto(with orientation: AVCaptureVideoOrientation) {
+        sessionConfigurator.photoOutput.connection(with: .video)?.videoOrientation = orientation
         sessionConfigurator.photoOutput.capturePhoto(with: .init(from: captureSettings), delegate: photoSaver)
     }
     

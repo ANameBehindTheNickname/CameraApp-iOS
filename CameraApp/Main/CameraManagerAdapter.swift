@@ -5,9 +5,11 @@
 
 final class CameraManagerAdapter: CameraControlViewVMDelegate {
     private let cameraManager: CameraManager
+    private let previewView: PreviewView
     
-    init(_ cameraManager: CameraManager) {
+    init(_ cameraManager: CameraManager, _ previewView: PreviewView) {
         self.cameraManager = cameraManager
+        self.previewView = previewView
     }
     
     func didChangeCamera() {
@@ -15,7 +17,7 @@ final class CameraManagerAdapter: CameraControlViewVMDelegate {
     }
     
     func didTakePhoto() {
-        cameraManager.takePhoto()
+        cameraManager.takePhoto(with: previewView.videoLayer.connection?.videoOrientation ?? .portrait)
     }
     
     func didSetRatio(to state: CameraControlStateMachine.ChangeRatioButtonState) {
