@@ -8,6 +8,11 @@ import UIKit
 final class MainContainerVC: UIViewController {
     private let cameraVC: UIViewController
     private let cameraControlVC: UIViewController
+    private lazy var cameraControlCompactVerticalConstraint =
+        cameraControlVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+    
+    private lazy var cameraControlRegularVerticalConstraint =
+        cameraControlVC.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
     
     init(cameraVC: UIViewController, cameraControlVC: UIViewController) {
         self.cameraVC = cameraVC
@@ -36,15 +41,27 @@ final class MainContainerVC: UIViewController {
         cameraVC.view.translatesAutoresizingMaskIntoConstraints = false
         cameraControlVC.view.translatesAutoresizingMaskIntoConstraints = false
         
+        (traitCollection.verticalSizeClass == .compact
+            ? cameraControlCompactVerticalConstraint
+            : cameraControlRegularVerticalConstraint).isActive = true
+        
         NSLayoutConstraint.activate([
             cameraVC.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             cameraVC.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             cameraVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             cameraVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            cameraControlVC.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             cameraControlVC.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            cameraControlVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            cameraControlVC.view.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass else { return }
+        
+        let isCompact = traitCollection.verticalSizeClass == .compact
+        cameraControlCompactVerticalConstraint.isActive = isCompact
+        cameraControlRegularVerticalConstraint.isActive = !isCompact
     }
 }

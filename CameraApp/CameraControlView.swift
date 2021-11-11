@@ -54,26 +54,34 @@ final class CameraControlView: UIView {
     
     private func commonInit() {
         Bundle.main.loadNib(CameraControlView.self, owner: self)
-        addSubview(contentView)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         setupSubviews()
         constraintSubviews()
     }
     
     private func setupSubviews() {
+        addSubview(contentView)
         contentView.backgroundColor = .clear
-        buttonStack.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        buttonStack.layoutMargins = insets(for: traitCollection)
         buttonStack.isLayoutMarginsRelativeArrangement = true
         changeRatioButton.imageView?.contentMode = .scaleAspectFit
     }
     
     private func constraintSubviews() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
         [gridButton, changeCameraButton, changeRatioButton, flashlightButton].forEach {
             $0?.widthAnchor.constraint(equalToConstant: 30).isActive = true
             $0?.heightAnchor.constraint(equalToConstant: 30).isActive = true
         }
+        
+        takePhotoButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        takePhotoButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
     private func fill(from viewModel: CameraControlViewViewModel) {
@@ -105,5 +113,18 @@ final class CameraControlView: UIView {
     private func update(_ button: UIButton, with tintColorName: String, and imageName: String ) {
         button.tintColor = .init(named: tintColorName)
         button.setImage(.init(withName: imageName), for: .normal)
+    }
+    
+    private func insets(for traitCollection: UITraitCollection) -> UIEdgeInsets {
+        traitCollection.verticalSizeClass == .compact
+            ? .init(top: 20, left: 0, bottom: 20, right: 0)
+            : .init(top: 0, left: 20, bottom: 0, right: 20)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass else { return }
+        
+        buttonStack.layoutMargins = insets(for: traitCollection)
     }
 }
