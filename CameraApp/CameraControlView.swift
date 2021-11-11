@@ -61,8 +61,13 @@ final class CameraControlView: UIView {
     private func setupSubviews() {
         addSubview(contentView)
         contentView.backgroundColor = .clear
+        
         buttonStack.layoutMargins = insets(for: traitCollection)
         buttonStack.isLayoutMarginsRelativeArrangement = true
+        if traitCollection.verticalSizeClass == .compact {
+            reverseButtonStack()
+        }
+        
         changeRatioButton.imageView?.contentMode = .scaleAspectFit
     }
     
@@ -126,5 +131,13 @@ final class CameraControlView: UIView {
         guard previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass else { return }
         
         buttonStack.layoutMargins = insets(for: traitCollection)
+        reverseButtonStack()
+    }
+    
+    private func reverseButtonStack() {
+        buttonStack.arrangedSubviews.reversed().forEach {
+            buttonStack.removeArrangedSubview($0)
+            buttonStack.addArrangedSubview($0)
+        }
     }
 }
