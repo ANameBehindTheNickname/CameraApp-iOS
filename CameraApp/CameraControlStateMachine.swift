@@ -30,9 +30,17 @@ final class CameraControlStateMachine {
         case onFlashlightTap
     }
     
+    enum DeviceOrientationState: Int {
+        case portrait = 1
+        case portraitUpsideDown = 2
+        case landscapeLeft = 3
+        case landscapeRight = 4
+    }
+    
     private(set) var gridButtonState = GridButtonState.off
     private(set) var changeRatioButtonState = ChangeRatioButtonState.fourByThree
     private(set) var flashlightButtonState = FlashlightButtonState.auto
+    private(set) var deviceOrientationState: DeviceOrientationState?
     
     func updateState(with event: Event) {
         switch event {
@@ -61,5 +69,9 @@ final class CameraControlStateMachine {
             }
         case .onChangeCameraTap, .onTakePhotoTap: break
         }
+    }
+    
+    func updateDeviceOrientationState(to newState: DeviceOrientationState) {
+        deviceOrientationState = newState
     }
 }

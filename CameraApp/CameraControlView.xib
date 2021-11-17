@@ -58,7 +58,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <variation key="heightClass=compact" axis="vertical"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

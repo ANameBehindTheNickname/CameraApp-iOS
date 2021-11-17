@@ -6,6 +6,8 @@
 import UIKit
 
 final class CameraControlView: UIView {
+    typealias ViewModel = CameraControlViewViewModel
+    
     @IBOutlet private var contentView: UIView!
     @IBOutlet private var buttonStack: UIStackView!
     
@@ -35,7 +37,7 @@ final class CameraControlView: UIView {
         send(.onFlashlightTap, from: sender)
     }
     
-    var viewModel: CameraControlViewViewModel? {
+    var viewModel: ViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
             fill(from: viewModel)
@@ -62,11 +64,8 @@ final class CameraControlView: UIView {
         addSubview(contentView)
         contentView.backgroundColor = .clear
         
-        buttonStack.layoutMargins = insets(for: traitCollection)
+        buttonStack.layoutMargins = .init(top: 0, left: 20, bottom: 0, right: 20)
         buttonStack.isLayoutMarginsRelativeArrangement = true
-        if traitCollection.verticalSizeClass == .compact {
-            reverseButtonStack()
-        }
         
         changeRatioButton.imageView?.contentMode = .scaleAspectFit
     }
@@ -89,7 +88,7 @@ final class CameraControlView: UIView {
         takePhotoButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
-    private func fill(from viewModel: CameraControlViewViewModel) {
+    private func fill(from viewModel: ViewModel) {
         let (gridColorName, gridImageName) = viewModel.gridButtonConfig()
         update(gridButton, with: gridColorName, and: gridImageName)
         
@@ -107,7 +106,7 @@ final class CameraControlView: UIView {
         update(flashlightButton, with: flashlightColorName, and: flashlightImageName)
     }
     
-    private func send(_ event: CameraControlViewViewModel.Event, from button: UIButton) {
+    private func send(_ event: ViewModel.Event, from button: UIButton) {
         viewModel?.send(event: event) {
             $0.map { (tintColorName, imageName) in
                 update(button, with: tintColorName, and: imageName)
@@ -119,25 +118,25 @@ final class CameraControlView: UIView {
         button.tintColor = .init(named: tintColorName)
         button.setImage(.init(withName: imageName), for: .normal)
     }
-    
-    private func insets(for traitCollection: UITraitCollection) -> UIEdgeInsets {
-        traitCollection.verticalSizeClass == .compact
-            ? .init(top: 20, left: 0, bottom: 20, right: 0)
-            : .init(top: 0, left: 20, bottom: 0, right: 20)
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        guard previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass else { return }
+}
+
+extension CameraControlView: DeviceRotationDelegate {
+    func deviceDidRotate(to orientation: UIDeviceOrientation) {
+        guard let viewModel = viewModel else { return }
         
-        buttonStack.layoutMargins = insets(for: traitCollection)
-        reverseButtonStack()
+        let orientation = deviceOrientation(from: orientation) ?? viewModel.defaultOrientation
+        let (angle, duration) = viewModel.rotationAnimationSettings(from: orientation)
+        
+        DispatchQueue.main.async {
+            self.buttonStack.arrangedSubviews.forEach { subview in
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut) {
+                    subview.transform = subview.transform.rotated(by: angle * .pi / 180)
+                }
+            }
+        }
     }
     
-    private func reverseButtonStack() {
-        buttonStack.arrangedSubviews.reversed().forEach {
-            buttonStack.removeArrangedSubview($0)
-            buttonStack.addArrangedSubview($0)
-        }
+    private func deviceOrientation(from deviceOrientation: UIDeviceOrientation) -> ViewModel.Orientation? {
+        .init(rawValue: deviceOrientation.rawValue)
     }
 }

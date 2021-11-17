@@ -23,8 +23,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private lazy var sessionConfigurator = SessionConfigurator(captureSession: captureSession)
     private lazy var cameraManager = CameraManager(sessionConfigurator, LibraryPhotoSaver())
-    private let previewView = PreviewView()
-    private lazy var cameraAdapter = CameraManagerAdapter(cameraManager, previewView)
+    private lazy var cameraAdapter = CameraManagerAdapter(cameraManager)
+    private let rotationQueue = OperationQueue()
+    private lazy var deviceRotationManager = DeviceRotationManager(.init(), rotationQueue)
+    
+    private var deviceRotationDelegate: DeviceRotationComposite?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -33,9 +36,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             PermissionsManager().requestPermissions(isGrantedCompletion: sessionConfigurator.configure)
         }
         
-        let cameraVC = makeCameraVC(previewView, captureSession, onViewDidLoad)
-        let cameraControlVC = makeCameraControlVC(cameraControlStateMachine)
+        let cameraVC = makeCameraVC(captureSession, onViewDidLoad)
+        
+        let cameraControlView = CameraControlView()
+        let cameraControlVC = makeCameraControlVC(cameraControlView, cameraControlStateMachine)
         cameraControlVC.cameraControlVM.delegate = cameraAdapter
+        
+        deviceRotationDelegate = DeviceRotationComposite([cameraControlView, cameraAdapter])
+        deviceRotationManager.delegate = deviceRotationDelegate
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = MainContainerVC(cameraVC: cameraVC, cameraControlVC: cameraControlVC)
@@ -44,27 +52,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func makeCameraVC(
-        _ previewView: PreviewView,
         _ captureSession: AVCaptureSession,
         _ onViewDidLoad: @escaping (() -> Void))
     -> UIViewController {
+        let previewView = PreviewView()
         previewView.videoLayer.session = captureSession
         let vc = CameraVC(previewView)
         vc.onViewDidLoad = onViewDidLoad
-        vc.onViewDidLayoutSubviews = {
-            if let connection = previewView.videoLayer.connection  {
-                let deviceOrientation = UIDevice.current.orientation
-                if connection.isVideoOrientationSupported,
-                   let videoOrientation = AVCaptureVideoOrientation(rawValue: deviceOrientation.rawValue) {
-                    connection.videoOrientation = videoOrientation
-                }
-            }
-        }
         
         return vc
     }
     
-    private func makeCameraControlVC(_ stateMachine: CameraControlStateMachine) -> CameraControlVC {
-        CameraControlVC(cameraControlView: .init(), cameraControlVM: .init(stateMachine, .init()))
+    private func makeCameraControlVC(_ cameraControlView: CameraControlView, _ stateMachine: CameraControlStateMachine) -> CameraControlVC {
+        CameraControlVC(cameraControlView: cameraControlView, cameraControlVM: .init(stateMachine, .init()))
     }
 }
