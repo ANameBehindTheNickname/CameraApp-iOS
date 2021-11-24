@@ -4,7 +4,7 @@
 import CoreMotion
 import Swift
 import UIKit
-public protocol RotationManagerDelegate {
+public protocol RotationManagerDelegate : AnyObject {
   func deviceDidRotate(to orientation: UIKit.UIDeviceOrientation)
 }
 final public class RotationManager {

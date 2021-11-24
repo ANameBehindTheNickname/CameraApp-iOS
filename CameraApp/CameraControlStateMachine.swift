@@ -31,6 +31,7 @@ final class CameraControlStateMachine {
     }
     
     enum DeviceOrientationState: Int {
+        case unknown = 0
         case portrait = 1
         case portraitUpsideDown = 2
         case landscapeLeft = 3

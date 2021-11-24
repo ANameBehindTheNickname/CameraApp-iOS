@@ -123,9 +123,9 @@ final class CameraControlView: UIView {
 
 extension CameraControlView: RotationManagerDelegate {
     func deviceDidRotate(to orientation: UIDeviceOrientation) {
-        guard let viewModel = viewModel else { return }
+        guard let viewModel = viewModel,
+              let orientation = deviceOrientation(from: orientation) else { return }
         
-        let orientation = deviceOrientation(from: orientation) ?? viewModel.defaultOrientation
         let (angle, duration) = viewModel.rotationAnimationSettings(from: orientation)
         
         DispatchQueue.main.async {

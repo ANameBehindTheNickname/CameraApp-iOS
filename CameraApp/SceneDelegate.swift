@@ -30,18 +30,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let onViewDidLoad = { [unowned self] in
-            PermissionsManager().requestPermissions(isGrantedCompletion: sessionConfigurator.configure)
-        }
-        
-        let cameraVC = makeCameraVC(captureSession, onViewDidLoad)
-        
         let cameraControlView = CameraControlView()
         let cameraControlVC = makeCameraControlVC(cameraControlView, cameraControlStateMachine)
         cameraControlVC.cameraControlVM.delegate = cameraAdapter
         
         let rotationDelegate = RotationManagerDelegateComposite([cameraControlView, cameraAdapter])
-        rotationManager.startRotationManagerUpdates(rotationDelegate)
+        
+        let onViewDidLoad = { [unowned self] in
+            PermissionsManager().requestPermissions(isGrantedCompletion: sessionConfigurator.configure)
+            rotationManager.startRotationManagerUpdates(rotationDelegate)
+        }
+        
+        let cameraVC = makeCameraVC(captureSession, onViewDidLoad)
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = MainContainerVC(cameraVC: cameraVC, cameraControlVC: cameraControlVC)
