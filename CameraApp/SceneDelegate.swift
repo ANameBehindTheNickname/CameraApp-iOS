@@ -5,6 +5,7 @@
 
 import UIKit
 import AVFoundation
+import Rotations
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -24,10 +25,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private lazy var sessionConfigurator = SessionConfigurator(captureSession: captureSession)
     private lazy var cameraManager = CameraManager(sessionConfigurator, LibraryPhotoSaver())
     private lazy var cameraAdapter = CameraManagerAdapter(cameraManager)
-    private let rotationQueue = OperationQueue()
-    private lazy var deviceRotationManager = DeviceRotationManager(.init(), rotationQueue)
-    
-    private var deviceRotationDelegate: DeviceRotationComposite?
+    private lazy var rotationManager = RotationManager()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -42,8 +40,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let cameraControlVC = makeCameraControlVC(cameraControlView, cameraControlStateMachine)
         cameraControlVC.cameraControlVM.delegate = cameraAdapter
         
-        deviceRotationDelegate = DeviceRotationComposite([cameraControlView, cameraAdapter])
-        deviceRotationManager.delegate = deviceRotationDelegate
+        let rotationDelegate = RotationManagerDelegateComposite([cameraControlView, cameraAdapter])
+        rotationManager.startRotationManagerUpdates(rotationDelegate)
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = MainContainerVC(cameraVC: cameraVC, cameraControlVC: cameraControlVC)

@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Rotations
 
 final class CameraControlView: UIView {
     typealias ViewModel = CameraControlViewViewModel
@@ -120,7 +121,7 @@ final class CameraControlView: UIView {
     }
 }
 
-extension CameraControlView: DeviceRotationDelegate {
+extension CameraControlView: RotationManagerDelegate {
     func deviceDidRotate(to orientation: UIDeviceOrientation) {
         guard let viewModel = viewModel else { return }
         

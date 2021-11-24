@@ -71,12 +71,12 @@ final class CameraControlViewViewModel {
         case (.portrait, .landscapeLeft),
              (.landscapeRight, .portrait),
              (.portraitUpsideDown, .landscapeRight),
-             (.landscapeLeft, .portraitUpsideDown): return (-90, controlAnimationDuration)
+             (.landscapeLeft, .portraitUpsideDown): return (90, controlAnimationDuration)
             
         case (.landscapeLeft, .portrait),
              (.portrait, .landscapeRight),
              (.landscapeRight, .portraitUpsideDown),
-             (.portraitUpsideDown, .landscapeLeft): return (90, controlAnimationDuration)
+             (.portraitUpsideDown, .landscapeLeft): return (-90, controlAnimationDuration)
             
         case (.portrait, .portraitUpsideDown),
              (.portraitUpsideDown, .portrait),

@@ -4,11 +4,12 @@
 //
 
 import UIKit
+import Rotations
 
-final class DeviceRotationComposite: DeviceRotationDelegate {
-    private let delegates: [DeviceRotationDelegate]
+final class RotationManagerDelegateComposite: RotationManagerDelegate {
+    private let delegates: [RotationManagerDelegate]
     
-    init(_ delegates: [DeviceRotationDelegate]) {
+    init(_ delegates: [RotationManagerDelegate]) {
         self.delegates = delegates
     }
     

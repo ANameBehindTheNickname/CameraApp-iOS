@@ -5,6 +5,7 @@
 
 import UIKit
 import AVFoundation
+import Rotations
 
 final class CameraManagerAdapter: CameraControlViewVMDelegate {
     private let cameraManager: CameraManager
@@ -39,12 +40,12 @@ final class CameraManagerAdapter: CameraControlViewVMDelegate {
     }
 }
 
-extension CameraManagerAdapter: DeviceRotationDelegate {
+extension CameraManagerAdapter: RotationManagerDelegate {
     func deviceDidRotate(to orientation: UIDeviceOrientation) {
         switch orientation {
         case .portraitUpsideDown: captureVideoOrientation = .portraitUpsideDown
-        case .landscapeLeft: captureVideoOrientation = .landscapeLeft
-        case .landscapeRight: captureVideoOrientation = .landscapeRight
+        case .landscapeLeft: captureVideoOrientation = .landscapeRight
+        case .landscapeRight: captureVideoOrientation = .landscapeLeft
         default: captureVideoOrientation = .portrait
         }
     }
