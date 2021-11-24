@@ -38,9 +38,7 @@ final class CameraControlViewViewModel {
     }
     
     func flashlightButtonConfig() -> (tintColorName: String, imageName: String) {
-        let flashlightState = stateMachine.flashlightButtonState
-        delegate?.didSetFlashlight(to: flashlightState)
-        return uiConfigurator.flashlightButtonConfig(for: flashlightState)
+        uiConfigurator.flashlightButtonConfig(for: stateMachine.flashlightButtonState)
     }
     
     func send(event: Event, completion: ((String, String)?) -> Void) {
@@ -55,6 +53,7 @@ final class CameraControlViewViewModel {
             delegate?.didSetRatio(to: stateMachine.changeRatioButtonState)
         case .onFlashlightTap:
             configuration = flashlightButtonConfig()
+            delegate?.didSetFlashlight(to: stateMachine.flashlightButtonState)
         case .onChangeCameraTap:
             delegate?.didChangeCamera()
         case .onTakePhotoTap:
