@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,17 +11,27 @@
 		F8021CBD2726938B00C11114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8021CBC2726938B00C11114 /* SceneDelegate.swift */; };
 		F8021CC42726938B00C11114 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8021CC32726938B00C11114 /* Assets.xcassets */; };
 		F8021CC72726938B00C11114 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8021CC52726938B00C11114 /* LaunchScreen.storyboard */; };
+		F80F6BF92732E47600C43602 /* CameraManagerAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */; };
+		F80F6BFB2732F9E200C43602 /* PhotoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80F6BFA2732F9E200C43602 /* PhotoSaver.swift */; };
+		F80F6BFD2732F9FD00C43602 /* LibraryPhotoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80F6BFC2732F9FD00C43602 /* LibraryPhotoSaver.swift */; };
+		F84F83602744099700352B11 /* RotationManagerDelegateComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84F835F2744099700352B11 /* RotationManagerDelegateComposite.swift */; };
 		F86EA8A7272BE44F007EA421 /* CameraControlStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */; };
 		F86EA8A9272BE46E007EA421 /* CameraControlViewUIConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */; };
+		F8714FF12726D6B700EDB632 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8714FF02726D6B700EDB632 /* CameraManager.swift */; };
+		F8749E3F273BEC8500B10951 /* MainContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8749E3E273BEC8500B10951 /* MainContainerVC.swift */; };
+		F87882BF274E666400A79E0B /* Rotations.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87882BE274E666400A79E0B /* Rotations.xcframework */; };
+		F87F6E5127353656005276D0 /* CameraControlViewVMDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87F6E5027353656005276D0 /* CameraControlViewVMDelegate.swift */; };
 		F886E893272A897200704719 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F886E892272A897200704719 /* UIImage.swift */; };
+		F889A4A52732913800C03B98 /* AVCaptureDevice_Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = F889A4A42732913800C03B98 /* AVCaptureDevice_Position.swift */; };
+		F889A4A72732B26900C03B98 /* SessionConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F889A4A62732B26900C03B98 /* SessionConfigurator.swift */; };
+		F889A4AA2732DC0700C03B98 /* PermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F889A4A92732DC0700C03B98 /* PermissionsManager.swift */; };
 		F8A3DF3C272931720029F689 /* CameraControlViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A3DF3B272931720029F689 /* CameraControlViewViewModel.swift */; };
+		F8B72ACF2726A2AA00D85619 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B72ACD2726A2AA00D85619 /* CameraVC.swift */; };
+		F8B72AD22726B1D000D85619 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B72AD12726B1D000D85619 /* PreviewView.swift */; };
 		F8EA43022727DF2A00C75420 /* CameraControlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EA43012727DF2A00C75420 /* CameraControlVC.swift */; };
 		F8EA43042727DF3F00C75420 /* CameraControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EA43032727DF3F00C75420 /* CameraControlView.swift */; };
 		F8EA43062727DF4F00C75420 /* CameraControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8EA43052727DF4F00C75420 /* CameraControlView.xib */; };
 		F8EA43092727E68300C75420 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EA43082727E68300C75420 /* Bundle.swift */; };
-		F8714FF12726D6B700EDB632 /* CameraVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8714FF02726D6B700EDB632 /* CameraVCViewModel.swift */; };
-		F8B72ACF2726A2AA00D85619 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B72ACD2726A2AA00D85619 /* CameraVC.swift */; };
-		F8B72AD22726B1D000D85619 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B72AD12726B1D000D85619 /* PreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,17 +41,27 @@
 		F8021CC32726938B00C11114 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8021CC62726938B00C11114 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F8021CC82726938B00C11114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManagerAdapter.swift; sourceTree = "<group>"; };
+		F80F6BFA2732F9E200C43602 /* PhotoSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaver.swift; sourceTree = "<group>"; };
+		F80F6BFC2732F9FD00C43602 /* LibraryPhotoSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPhotoSaver.swift; sourceTree = "<group>"; };
+		F84F835F2744099700352B11 /* RotationManagerDelegateComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationManagerDelegateComposite.swift; sourceTree = "<group>"; };
 		F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlStateMachine.swift; sourceTree = "<group>"; };
 		F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlViewUIConfigurator.swift; sourceTree = "<group>"; };
+		F8714FF02726D6B700EDB632 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		F8749E3E273BEC8500B10951 /* MainContainerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerVC.swift; sourceTree = "<group>"; };
+		F87882BE274E666400A79E0B /* Rotations.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Rotations.xcframework; sourceTree = "<group>"; };
+		F87F6E5027353656005276D0 /* CameraControlViewVMDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlViewVMDelegate.swift; sourceTree = "<group>"; };
 		F886E892272A897200704719 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		F889A4A42732913800C03B98 /* AVCaptureDevice_Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureDevice_Position.swift; sourceTree = "<group>"; };
+		F889A4A62732B26900C03B98 /* SessionConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionConfigurator.swift; sourceTree = "<group>"; };
+		F889A4A92732DC0700C03B98 /* PermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsManager.swift; sourceTree = "<group>"; };
 		F8A3DF3B272931720029F689 /* CameraControlViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlViewViewModel.swift; sourceTree = "<group>"; };
+		F8B72ACD2726A2AA00D85619 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		F8B72AD12726B1D000D85619 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		F8EA43012727DF2A00C75420 /* CameraControlVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlVC.swift; sourceTree = "<group>"; };
 		F8EA43032727DF3F00C75420 /* CameraControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlView.swift; sourceTree = "<group>"; };
 		F8EA43052727DF4F00C75420 /* CameraControlView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraControlView.xib; sourceTree = "<group>"; };
 		F8EA43082727E68300C75420 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
-		F8714FF02726D6B700EDB632 /* CameraVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVCViewModel.swift; sourceTree = "<group>"; };
-		F8B72ACD2726A2AA00D85619 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
-		F8B72AD12726B1D000D85619 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F87882BF274E666400A79E0B /* Rotations.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +81,7 @@
 			children = (
 				F8021CB92726938B00C11114 /* CameraApp */,
 				F8021CB82726938B00C11114 /* Products */,
+				F87882AF274E1F4900A79E0B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,17 +96,21 @@
 		F8021CB92726938B00C11114 /* CameraApp */ = {
 			isa = PBXGroup;
 			children = (
+				F80F6BF72732E46F00C43602 /* Main */,
+				F889A4A82732B28100C03B98 /* Domain */,
+				F84F835E2744090A00352B11 /* DeviceRotations */,
 				F8EA43072727E67600C75420 /* Extensions */,
 				F8021CBA2726938B00C11114 /* AppDelegate.swift */,
 				F8021CBC2726938B00C11114 /* SceneDelegate.swift */,
+				F8749E3E273BEC8500B10951 /* MainContainerVC.swift */,
 				F8EA43012727DF2A00C75420 /* CameraControlVC.swift */,
 				F8A3DF3B272931720029F689 /* CameraControlViewViewModel.swift */,
+				F87F6E5027353656005276D0 /* CameraControlViewVMDelegate.swift */,
 				F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */,
 				F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */,
 				F8EA43032727DF3F00C75420 /* CameraControlView.swift */,
 				F8EA43052727DF4F00C75420 /* CameraControlView.xib */,
 				F8B72ACD2726A2AA00D85619 /* CameraVC.swift */,
-				F8714FF02726D6B700EDB632 /* CameraVCViewModel.swift */,
 				F8B72AD12726B1D000D85619 /* PreviewView.swift */,
 				F8021CC32726938B00C11114 /* Assets.xcassets */,
 				F8021CC52726938B00C11114 /* LaunchScreen.storyboard */,
@@ -93,11 +119,48 @@
 			path = CameraApp;
 			sourceTree = "<group>";
 		};
+		F80F6BF72732E46F00C43602 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		F84F835E2744090A00352B11 /* DeviceRotations */ = {
+			isa = PBXGroup;
+			children = (
+				F84F835F2744099700352B11 /* RotationManagerDelegateComposite.swift */,
+			);
+			path = DeviceRotations;
+			sourceTree = "<group>";
+		};
+		F87882AF274E1F4900A79E0B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F87882BE274E666400A79E0B /* Rotations.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F889A4A82732B28100C03B98 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				F8714FF02726D6B700EDB632 /* CameraManager.swift */,
+				F889A4A62732B26900C03B98 /* SessionConfigurator.swift */,
+				F889A4A92732DC0700C03B98 /* PermissionsManager.swift */,
+				F80F6BFA2732F9E200C43602 /* PhotoSaver.swift */,
+				F80F6BFC2732F9FD00C43602 /* LibraryPhotoSaver.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
 		F8EA43072727E67600C75420 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				F8EA43082727E68300C75420 /* Bundle.swift */,
 				F886E892272A897200704719 /* UIImage.swift */,
+				F889A4A42732913800C03B98 /* AVCaptureDevice_Position.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -172,17 +235,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F80F6BF92732E47600C43602 /* CameraManagerAdapter.swift in Sources */,
 				F8EA43022727DF2A00C75420 /* CameraControlVC.swift in Sources */,
-				F8714FF12726D6B700EDB632 /* CameraVCViewModel.swift in Sources */,
+				F80F6BFD2732F9FD00C43602 /* LibraryPhotoSaver.swift in Sources */,
+				F8714FF12726D6B700EDB632 /* CameraManager.swift in Sources */,
 				F8021CBB2726938B00C11114 /* AppDelegate.swift in Sources */,
+				F84F83602744099700352B11 /* RotationManagerDelegateComposite.swift in Sources */,
 				F86EA8A7272BE44F007EA421 /* CameraControlStateMachine.swift in Sources */,
 				F8B72AD22726B1D000D85619 /* PreviewView.swift in Sources */,
+				F889A4A52732913800C03B98 /* AVCaptureDevice_Position.swift in Sources */,
 				F8B72ACF2726A2AA00D85619 /* CameraVC.swift in Sources */,
 				F8021CBD2726938B00C11114 /* SceneDelegate.swift in Sources */,
 				F86EA8A9272BE46E007EA421 /* CameraControlViewUIConfigurator.swift in Sources */,
+				F889A4AA2732DC0700C03B98 /* PermissionsManager.swift in Sources */,
 				F8EA43092727E68300C75420 /* Bundle.swift in Sources */,
 				F8A3DF3C272931720029F689 /* CameraControlViewViewModel.swift in Sources */,
 				F8EA43042727DF3F00C75420 /* CameraControlView.swift in Sources */,
+				F889A4A72732B26900C03B98 /* SessionConfigurator.swift in Sources */,
+				F80F6BFB2732F9E200C43602 /* PhotoSaver.swift in Sources */,
+				F8749E3F273BEC8500B10951 /* MainContainerVC.swift in Sources */,
+				F87F6E5127353656005276D0 /* CameraControlViewVMDelegate.swift in Sources */,
 				F886E893272A897200704719 /* UIImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

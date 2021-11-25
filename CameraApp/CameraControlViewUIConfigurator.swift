@@ -25,7 +25,6 @@ final class CameraControlViewUIConfigurator {
         switch state {
         case .sixteenByNine: return ("white", "sixteenByNine")
         case .fourByThree: return ("white", "fourByThree")
-        case .oneByOne: return ("white", "oneByOne")
         }
     }
     

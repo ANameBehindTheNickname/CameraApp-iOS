@@ -7,10 +7,12 @@ import UIKit
 
 final class CameraVC: UIViewController {
 
-    private let viewModel: CameraVCViewModel
+    private let previewView: PreviewView
+    var onViewDidLoad = { }
+    var onGridTap = { }
     
-    init(viewModel: CameraVCViewModel) {
-        self.viewModel = viewModel
+    init(_ previewView: PreviewView) {
+        self.previewView = previewView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -19,17 +21,11 @@ final class CameraVC: UIViewController {
     }
     
     override func loadView() {
-        view = PreviewView()
-    }
-    
-    var previewView: PreviewView {
-        view as! PreviewView
+        view = previewView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.requestPermissions()
-        previewView.videoLayer.session = viewModel.captureSession
+        onViewDidLoad()
     }
 }

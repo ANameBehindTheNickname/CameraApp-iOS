@@ -4,8 +4,11 @@
 //
 
 import UIKit
+import Rotations
 
 final class CameraControlView: UIView {
+    typealias ViewModel = CameraControlViewViewModel
+    
     @IBOutlet private var contentView: UIView!
     @IBOutlet private var buttonStack: UIStackView!
     
@@ -19,6 +22,14 @@ final class CameraControlView: UIView {
         send(.onGridTap, from: sender)
     }
     
+    @IBAction private func changeCamera(_ sender: UIButton) {
+        send(.onChangeCameraTap, from: sender)
+    }
+    
+    @IBAction private func takePhoto(_ sender: UIButton) {
+        send(.onTakePhotoTap, from: sender)
+    }
+    
     @IBAction private func changeRatioSetting(_ sender: UIButton) {
         send(.onChangeRatioTap, from: sender)
     }
@@ -27,7 +38,7 @@ final class CameraControlView: UIView {
         send(.onFlashlightTap, from: sender)
     }
     
-    var viewModel: CameraControlViewViewModel? {
+    var viewModel: ViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
             fill(from: viewModel)
@@ -46,29 +57,39 @@ final class CameraControlView: UIView {
     
     private func commonInit() {
         Bundle.main.loadNib(CameraControlView.self, owner: self)
-        addSubview(contentView)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         setupSubviews()
         constraintSubviews()
     }
     
     private func setupSubviews() {
+        addSubview(contentView)
         contentView.backgroundColor = .clear
-        buttonStack.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        
+        buttonStack.layoutMargins = .init(top: 0, left: 20, bottom: 0, right: 20)
         buttonStack.isLayoutMarginsRelativeArrangement = true
+        
         changeRatioButton.imageView?.contentMode = .scaleAspectFit
     }
     
     private func constraintSubviews() {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
         [gridButton, changeCameraButton, changeRatioButton, flashlightButton].forEach {
             $0?.widthAnchor.constraint(equalToConstant: 30).isActive = true
             $0?.heightAnchor.constraint(equalToConstant: 30).isActive = true
         }
+        
+        takePhotoButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        takePhotoButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
-    private func fill(from viewModel: CameraControlViewViewModel) {
+    private func fill(from viewModel: ViewModel) {
         let (gridColorName, gridImageName) = viewModel.gridButtonConfig()
         update(gridButton, with: gridColorName, and: gridImageName)
         
@@ -86,14 +107,37 @@ final class CameraControlView: UIView {
         update(flashlightButton, with: flashlightColorName, and: flashlightImageName)
     }
     
-    private func send(_ event: CameraControlViewViewModel.Event, from button: UIButton) {
-        viewModel?.send(event: event) { tintColorName, imageName in
-            update(button, with: tintColorName, and: imageName)
+    private func send(_ event: ViewModel.Event, from button: UIButton) {
+        viewModel?.send(event: event) {
+            $0.map { (tintColorName, imageName) in
+                update(button, with: tintColorName, and: imageName)
+            }
         }
     }
     
     private func update(_ button: UIButton, with tintColorName: String, and imageName: String ) {
         button.tintColor = .init(named: tintColorName)
         button.setImage(.init(withName: imageName), for: .normal)
+    }
+}
+
+extension CameraControlView: RotationManagerDelegate {
+    func deviceDidRotate(to orientation: UIDeviceOrientation) {
+        guard let viewModel = viewModel,
+              let orientation = deviceOrientation(from: orientation) else { return }
+        
+        let (angle, duration) = viewModel.rotationAnimationSettings(from: orientation)
+        
+        DispatchQueue.main.async {
+            self.buttonStack.arrangedSubviews.forEach { subview in
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut) {
+                    subview.transform = subview.transform.rotated(by: angle * .pi / 180)
+                }
+            }
+        }
+    }
+    
+    private func deviceOrientation(from deviceOrientation: UIDeviceOrientation) -> ViewModel.Orientation? {
+        .init(rawValue: deviceOrientation.rawValue)
     }
 }

@@ -1,0 +1,4 @@
+framework module Rotations {
+  header "Rotations-Swift.h"
+  requires objc
+}

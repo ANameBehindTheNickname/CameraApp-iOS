@@ -4,13 +4,78 @@
 //
 
 import UIKit
+import AVFoundation
+import Rotations
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
+    
+    private lazy var cameraControlStateMachine = CameraControlStateMachine()
+    private lazy var captureSession: AVCaptureSession = {
+        let session = AVCaptureSession()
+        switch cameraControlStateMachine.changeRatioButtonState {
+        case .sixteenByNine: session.sessionPreset = .hd1280x720
+        case .fourByThree: session.sessionPreset = .photo
+        }
+        
+        return session
+    }()
+    
+    private lazy var sessionConfigurator = SessionConfigurator(captureSession: captureSession)
+    private lazy var cameraManager = CameraManager(sessionConfigurator, LibraryPhotoSaver())
+    private lazy var rotationManager = RotationManager()
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let cameraAdapter = CameraManagerAdapter(cameraManager)
+        
+        let cameraControlView = CameraControlView()
+        let cameraControlVC = makeCameraControlVC(cameraControlView, cameraControlStateMachine)
+        cameraControlVC.cameraControlVM.delegate = cameraAdapter
+        
+        let rotationDelegate = RotationManagerDelegateComposite([cameraControlView, cameraAdapter])
+        
+        let onViewDidLoad = { [unowned self] in
+            PermissionsManager().requestPermissions(isGrantedCompletion: sessionConfigurator.configure)
+            rotationManager.startRotationManagerUpdates(rotationDelegate)
+        }
+        
+        let onGridTap = { [unowned self] in
+            cameraControlVC.showDetailViewController(makeNotImplementedAlert(), sender: cameraControlVC)
+        }
+        
+        cameraAdapter.onGridTap = onGridTap
+        let cameraVC = makeCameraVC(captureSession, onViewDidLoad)
+        
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = MainContainerVC(cameraVC: cameraVC, cameraControlVC: cameraControlVC)
+        window.makeKeyAndVisible()
+        self.window = window
+    }
+    
+    private func makeCameraVC(
+        _ captureSession: AVCaptureSession,
+        _ onViewDidLoad: @escaping (() -> Void))
+    -> UIViewController {
+        let previewView = PreviewView()
+        previewView.videoLayer.session = captureSession
+        let vc = CameraVC(previewView)
+        vc.onViewDidLoad = onViewDidLoad
+        
+        return vc
+    }
+    
+    private func makeCameraControlVC(_ cameraControlView: CameraControlView, _ stateMachine: CameraControlStateMachine) -> CameraControlVC {
+        CameraControlVC(cameraControlView: cameraControlView, cameraControlVM: .init(stateMachine, .init()))
+    }
+    
+    private func makeNotImplementedAlert() -> UIViewController {
+        let alertVC = UIAlertController(title: "Not implemented", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        
+        alertVC.addAction(okAction)
+        return alertVC
     }
 }
-
