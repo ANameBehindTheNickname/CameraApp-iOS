@@ -31,9 +31,11 @@ final class CameraManagerAdapter: CameraControlViewVMDelegate {
     }
     
     func didSetRatio(to state: CameraControlStateMachine.ChangeRatioButtonState) {
-        switch state {
-        case .sixteenByNine: cameraManager.setResolution(to: .hd1280x720)
-        case .fourByThree: cameraManager.setResolution(to: .photo)
+        DispatchQueue.global().async {
+            switch state {
+            case .sixteenByNine: self.cameraManager.setResolution(to: .hd1280x720)
+            case .fourByThree: self.cameraManager.setResolution(to: .photo)
+            }
         }
     }
     
