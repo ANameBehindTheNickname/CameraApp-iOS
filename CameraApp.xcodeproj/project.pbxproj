@@ -97,21 +97,9 @@
 			isa = PBXGroup;
 			children = (
 				F80F6BF72732E46F00C43602 /* Main */,
+				F88027BA274F9F3A00D644B9 /* UI */,
 				F889A4A82732B28100C03B98 /* Domain */,
-				F84F835E2744090A00352B11 /* DeviceRotations */,
 				F8EA43072727E67600C75420 /* Extensions */,
-				F8021CBA2726938B00C11114 /* AppDelegate.swift */,
-				F8021CBC2726938B00C11114 /* SceneDelegate.swift */,
-				F8749E3E273BEC8500B10951 /* MainContainerVC.swift */,
-				F8EA43012727DF2A00C75420 /* CameraControlVC.swift */,
-				F8A3DF3B272931720029F689 /* CameraControlViewViewModel.swift */,
-				F87F6E5027353656005276D0 /* CameraControlViewVMDelegate.swift */,
-				F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */,
-				F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */,
-				F8EA43032727DF3F00C75420 /* CameraControlView.swift */,
-				F8EA43052727DF4F00C75420 /* CameraControlView.xib */,
-				F8B72ACD2726A2AA00D85619 /* CameraVC.swift */,
-				F8B72AD12726B1D000D85619 /* PreviewView.swift */,
 				F8021CC32726938B00C11114 /* Assets.xcassets */,
 				F8021CC52726938B00C11114 /* LaunchScreen.storyboard */,
 				F8021CC82726938B00C11114 /* Info.plist */,
@@ -122,6 +110,8 @@
 		F80F6BF72732E46F00C43602 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				F8021CBA2726938B00C11114 /* AppDelegate.swift */,
+				F8021CBC2726938B00C11114 /* SceneDelegate.swift */,
 				F80F6BF82732E47600C43602 /* CameraManagerAdapter.swift */,
 			);
 			path = Main;
@@ -141,6 +131,40 @@
 				F87882BE274E666400A79E0B /* Rotations.xcframework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F88027BA274F9F3A00D644B9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F8749E3E273BEC8500B10951 /* MainContainerVC.swift */,
+				F88027BC274F9F9900D644B9 /* Camera */,
+				F88027BB274F9F8900D644B9 /* CameraControl */,
+				F84F835E2744090A00352B11 /* DeviceRotations */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F88027BB274F9F8900D644B9 /* CameraControl */ = {
+			isa = PBXGroup;
+			children = (
+				F8EA43012727DF2A00C75420 /* CameraControlVC.swift */,
+				F8A3DF3B272931720029F689 /* CameraControlViewViewModel.swift */,
+				F87F6E5027353656005276D0 /* CameraControlViewVMDelegate.swift */,
+				F86EA8A6272BE44F007EA421 /* CameraControlStateMachine.swift */,
+				F86EA8A8272BE46E007EA421 /* CameraControlViewUIConfigurator.swift */,
+				F8EA43032727DF3F00C75420 /* CameraControlView.swift */,
+				F8EA43052727DF4F00C75420 /* CameraControlView.xib */,
+			);
+			path = CameraControl;
+			sourceTree = "<group>";
+		};
+		F88027BC274F9F9900D644B9 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				F8B72ACD2726A2AA00D85619 /* CameraVC.swift */,
+				F8B72AD12726B1D000D85619 /* PreviewView.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		F889A4A82732B28100C03B98 /* Domain */ = {
