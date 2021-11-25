@@ -24,11 +24,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private lazy var sessionConfigurator = SessionConfigurator(captureSession: captureSession)
     private lazy var cameraManager = CameraManager(sessionConfigurator, LibraryPhotoSaver())
-    private lazy var cameraAdapter = CameraManagerAdapter(cameraManager)
     private lazy var rotationManager = RotationManager()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let cameraAdapter = CameraManagerAdapter(cameraManager)
         
         let cameraControlView = CameraControlView()
         let cameraControlVC = makeCameraControlVC(cameraControlView, cameraControlStateMachine)
@@ -41,6 +42,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             rotationManager.startRotationManagerUpdates(rotationDelegate)
         }
         
+        let onGridTap = { [unowned self] in
+            cameraControlVC.showDetailViewController(makeNotImplementedAlert(), sender: cameraControlVC)
+        }
+        
+        cameraAdapter.onGridTap = onGridTap
         let cameraVC = makeCameraVC(captureSession, onViewDidLoad)
         
         let window = UIWindow(windowScene: windowScene)
@@ -63,5 +69,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func makeCameraControlVC(_ cameraControlView: CameraControlView, _ stateMachine: CameraControlStateMachine) -> CameraControlVC {
         CameraControlVC(cameraControlView: cameraControlView, cameraControlVM: .init(stateMachine, .init()))
+    }
+    
+    private func makeNotImplementedAlert() -> UIViewController {
+        let alertVC = UIAlertController(title: "Not implemented", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        
+        alertVC.addAction(okAction)
+        return alertVC
     }
 }

@@ -4,6 +4,7 @@
 //
 
 protocol CameraControlViewVMDelegate: AnyObject {
+    func didSetGrid(to state: CameraControlStateMachine.GridButtonState)
     func didChangeCamera()
     func didTakePhoto()
     func didSetRatio(to state: CameraControlStateMachine.ChangeRatioButtonState)

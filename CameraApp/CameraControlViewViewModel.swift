@@ -47,6 +47,7 @@ final class CameraControlViewViewModel {
         switch event {
         case .onGridTap:
             configuration = gridButtonConfig()
+            delegate?.didSetGrid(to: stateMachine.gridButtonState)
         case .onChangeRatioTap:
             configuration = changeRatioButtonConfig()
             delegate?.didSetRatio(to: stateMachine.changeRatioButtonState)

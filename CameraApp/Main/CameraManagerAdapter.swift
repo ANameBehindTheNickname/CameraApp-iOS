@@ -8,11 +8,17 @@ import AVFoundation
 import Rotations
 
 final class CameraManagerAdapter: CameraControlViewVMDelegate {
+    var onGridTap: (() -> Void)?
+    
     private let cameraManager: CameraManager
     private var captureVideoOrientation: AVCaptureVideoOrientation?
     
     init(_ cameraManager: CameraManager) {
         self.cameraManager = cameraManager
+    }
+    
+    func didSetGrid(to state: CameraControlStateMachine.GridButtonState) {
+        onGridTap?()
     }
     
     func didChangeCamera() {

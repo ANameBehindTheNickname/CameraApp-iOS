@@ -9,6 +9,7 @@ final class CameraVC: UIViewController {
 
     private let previewView: PreviewView
     var onViewDidLoad = { }
+    var onGridTap = { }
     
     init(_ previewView: PreviewView) {
         self.previewView = previewView
